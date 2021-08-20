@@ -37,7 +37,7 @@ services:
 
   video:
     build:
-      context: docker_ros-web-video-server
+      context: ros-web-video-server
       dockerfile: Dockerfile
     image: ros-video
     environment:
