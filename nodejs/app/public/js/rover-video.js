@@ -22,9 +22,9 @@ const RoverVideo = {
                 width: this.width,
                 height: this.height,
                 divID: 'mjpeg',
-                host: 'localhost',
+                host: 'videoleo.fo.cac-lab.com',
                 topic: '/camera/image_raw',
-                port: 11315,
+                port: 443,
             })
         },
     },

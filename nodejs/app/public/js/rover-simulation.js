@@ -46,7 +46,7 @@ const RoverSimulation = {
         return {
             connected: false, //variable to establish connection w/ ROS applicaation
             ros: null,
-            ws_address: 'ws://localhost:9090/',  //address to at which ROS reply--> rosbridge node establish the connection on this port
+            ws_address: 'wss://bridgeleo.fo.cac-lab.com/',  //address to at which ROS reply--> rosbridge node establish the connection on this port
             odom: '',  //TMP variable to check odom values read
             logs: [],
             userName: '',

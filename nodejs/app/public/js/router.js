@@ -1,4 +1,4 @@
-const MONGO_URL = "http://localhost:7000/api"
+var MONGO_URL = "/api"
 
 const router = new VueRouter({
     mode: 'history',

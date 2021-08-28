@@ -3,12 +3,12 @@ const NavigationBar =  {
    <nav class="navbar navbar-expand-lg navbar-light bg-white justify-content-between" id="navigationbar">
         <img src="/static/img/almaxLogoExtended.png" alt="Almax Logo" id="almaxLogo" @click="openHome">
         <!-- BRAND -->
-        <div class="text-center" >
+        <div class="text-center mx-3">
           <a id="appName">RosWebApp</a>
         </div>
-        <form v-if="!token" id="form-login" method="post" @submit.prevent="login" class="col-xxl-4 col-lg-8 col-sm-12 col-12">
+        <form v-if="!token" id="form-login" method="post" @submit.prevent="login" class="col-xxl-5 col-lg-8 col-sm-12 col-12">
           <div class="row mx-0 align-items-center">
-            <div class="col col-xl-8 col-7">
+            <div class="col-12 col-sm-7">
               <div class="row mx-0">
                 <div class="col input-group input-group-sm ps-0">
                   <input id="userLogin" v-model="usernameLogin" class="form-control" :class="{ 'is-invalid': loginError }"
@@ -21,7 +21,7 @@ const NavigationBar =  {
               </div>
               <div v-if="loginError" class="login-alert-error text-center mt-1"> {{ loginError }} </div>
             </div>
-            <div id="notLogged-button-container" class="col col-xl-4 col-5">
+            <div id="notLogged-button-container" class="col-12 col-sm-4">
               <input type="submit" value="Login" class="btn btn-success"/>
               <input type="button" @click="openRegistrationForm" value="Sign up" class="btn btn-success"/>
             </div>

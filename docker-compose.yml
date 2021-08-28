@@ -1,4 +1,12 @@
-version: "3.9"
+version: "2.2"
+
+networks:
+  t2_proxy:
+    external:
+      name: t2_proxy
+  default:
+    driver: bridge
+
 services:
   mongodb:
     build:
@@ -15,11 +23,23 @@ services:
       context: nodejs
       dockerfile: Dockerfile
     image: nodejsapp
-    ports:
-      - 7000:7000
+    networks:
+      - t2_proxy
+      - default
     depends_on:
       mongodb:
         condition: service_started
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.webleo-rtr.entrypoints=https"
+      - "traefik.http.routers.webleo-rtr.rule=Host(`webleo.fo.cac-lab.com`)"
+      - "traefik.http.routers.webleo-rtr.tls=true"
+      ## Middlewares
+      - "traefik.http.routers.webleo-rtr.middlewares=chain-no-auth@file" # No Authentication
+      ## HTTP Services
+      - "traefik.http.routers.webleo-rtr.service=webleo-svc"
+      - "traefik.http.services.webleo-svc.loadbalancer.server.port=7000"
 
   leo:
     build: 
@@ -45,14 +65,28 @@ services:
      - "ROS_MASTER_URI=http://leo:11311"
     depends_on:
      - leo
-    ports:
-     - "11315:11315"
+    #ports:
+    # - "11315:11315"
+    networks:
+      - t2_proxy
+      - default    
     command:
      - rosrun
      - web_video_server
      - web_video_server
-     - _port:=11315
+     - _port:=443
     restart: always
+    labels:
+      - "traefik.enable=true"
+      ## HTTP Routers
+      - "traefik.http.routers.videoleo-rtr.entrypoints=https"
+      - "traefik.http.routers.videoleo-rtr.rule=Host(`videoleo.fo.cac-lab.com`)"
+      - "traefik.http.routers.videoleo-rtr.tls=true"
+      ## Middlewares
+      - "traefik.http.routers.videoleo-rtr.middlewares=chain-no-auth@file" # No Authentication
+      ## HTTP Services
+      - "traefik.http.routers.videoleo-rtr.service=videoleo-svc"
+      - "traefik.http.services.videoleo-svc.loadbalancer.server.port=443"
       
   bridge:
     build: 
@@ -64,15 +98,28 @@ services:
      - "ROS_MASTER_URI=http://leo:11311"
     depends_on:
      - leo
-    ports:
-      - "9090:9090"
+    networks:
+      - t2_proxy
+      - default
+    #ports:
+    #  - "9090:9090"
     command:
      - roslaunch
      - --wait
      - rosbridge_server
      - rosbridge_websocket.launch
     restart: always
-
+    labels:
+     - "traefik.enable=true"
+     ## HTTP Routers
+     - "traefik.http.routers.bridgeleo-rtr.entrypoints=https"
+     - "traefik.http.routers.bridgeleo-rtr.rule=Host(`bridgeleo.fo.cac-lab.com`)"
+     - "traefik.http.routers.bridgeleo-rtr.tls=true"
+     ## Middlewares
+     - "traefik.http.routers.bridgeleo-rtr.middlewares=chain-no-auth@file" # No Authentication
+     ## HTTP Services
+     - "traefik.http.routers.bridgeleo-rtr.service=bridgeleo-svc"
+     - "traefik.http.services.bridgeleo-svc.loadbalancer.server.port=80"
 
 volumes:
   mydata:

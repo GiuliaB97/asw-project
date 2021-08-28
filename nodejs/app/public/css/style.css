@@ -14,7 +14,7 @@ h3, h5{
     font-size: 40px;
 }
 .homeContainer{
-    margin-bottom: 200px;
+    #margin-bottom: 200px;
 }
 .last{
     margin:50px;
@@ -152,12 +152,6 @@ h3, h5{
     margin:  150px auto;
 }
 
-
-
-
-
-
-
 .row-in-containter{
     margin-left: 0px;
     margin-right: 0px;
@@ -178,7 +172,7 @@ html, body {
     border-radius: .25rem;
 }
 
-@media screen{
+@media screen and (max-width: 575px){
     h1{
         font-weight: bold;
         font-size: 20px;
@@ -213,6 +207,11 @@ html, body {
         padding-right: 0;
     }
 
+    #notLogged-button-container, #logged-button-container > input {
+        padding: .25rem .5rem;
+        font-size: .875rem;
+        border-radius: .2rem;
+    }
     /*
     #simulationButtons{
         text-align: center;
